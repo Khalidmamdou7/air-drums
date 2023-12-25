@@ -39,13 +39,13 @@ while True:
         x, y, w, h = cv2.boundingRect(contour)
         
         # Calculate speed (change in y-coordinate)
-        speed = abs(y - (y - h))
+        speed = y - (y - h)
 
         # Set a threshold for speed
-        speed_threshold = 300
+        speed_threshold = 320
 
         # Check if the object is moving faster than the threshold
-        if speed > speed_threshold:
+        if speed > speed_threshold and y + h > current_frame.shape[0] - 10:
             print("Object moving at a high speed!")
 
             # Optionally, play a sound
