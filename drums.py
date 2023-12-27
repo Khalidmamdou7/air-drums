@@ -140,7 +140,10 @@ while True:
 
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        speed = y - (y - h)
+
+        # speed = y - (y - h)
+        speed = h if h > 0 else 0
+        # print(speed)
         speed_threshold = 250
         if (
             speed > speed_threshold
@@ -152,7 +155,7 @@ while True:
             mean_intensity = np.mean(gray_roi)
             texture_threshold = 500
 
-            if mean_intensity < texture_threshold:
+            if mean_intensity < texture_threshold and h > 60 and w > 30 and y > 10:
                 print("Object moving downward at a high speed with low texture")
 
                 speed_mapping = min((speed - speed_threshold) / 50, 1.0)
