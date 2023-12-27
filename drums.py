@@ -112,7 +112,6 @@ ret, prev_frame = cap.read()
 
 # Load the drum sounds
 drum_sound_fast = pygame.mixer.Sound("drum.wav")
-# drum_sound_fast = pygame.mixer.Sound("drum_fast.wav")
 
 # Set the default speed and volume
 default_speed = 44100  # Adjust as needed
@@ -143,8 +142,11 @@ while True:
         x, y, w, h = cv2.boundingRect(contour)
         speed = y - (y - h)
         speed_threshold = 250
-
-        if speed > speed_threshold and y + h > current_frame.shape[0] - 10:
+        if (
+            speed > speed_threshold
+            and y + h > current_frame.shape[0] - 10
+            and speed > 0
+        ):
             roi = current_frame[y : y + h, x : x + w]
             gray_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
             mean_intensity = np.mean(gray_roi)
