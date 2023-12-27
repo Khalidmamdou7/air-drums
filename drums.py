@@ -117,7 +117,7 @@ drum_sound_fast = pygame.mixer.Sound("drum.wav")
 default_speed = 44100  # Adjust as needed
 default_volume = 0.5  # Adjust as needed
 pygame.mixer.init(frequency=default_speed, size=-16, channels=1, buffer=512)
-
+y_previous = None
 while True:
     ret, current_frame = cap.read()
 
@@ -141,8 +141,8 @@ while True:
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
 
-        # speed = y - (y - h)
-        speed = h if h > 0 else 0
+        speed = y - (y - h)
+        # speed = h if h > 0 else 0
         # print(speed)
         speed_threshold = 250
         if (
@@ -156,6 +156,7 @@ while True:
             texture_threshold = 500
 
             if mean_intensity < texture_threshold and h > 60 and w > 30 and y > 10:
+                # if y_previous < y:
                 print("Object moving downward at a high speed with low texture")
 
                 speed_mapping = min((speed - speed_threshold) / 50, 1.0)
@@ -171,6 +172,8 @@ while True:
                 pygame.mixer.Channel(0).play(drum_sound_fast)
 
                 cv2.rectangle(current_frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+        y_previous = y
 
     cv2.imshow("Original", current_frame)
     cv2.imshow("Moving only", thresholded_diff)
