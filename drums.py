@@ -49,14 +49,14 @@ while True:
         speed = y - (y - h)
         # speed = h if h > 0 else 0
         # print(speed)
-        speed_threshold = 200
+        speed_threshold = 300
         if speed > speed_threshold and y + h > current_frame.shape[0] - 15:
             roi = current_frame[y : y + h, x : x + w]
             gray_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
             mean_intensity = np.mean(gray_roi)
             texture_threshold = 500
 
-            # if speed > 70000:
+
             print(y_previous, y)
             if y_previous > y:
                 print("Object moving downward at a high speed with low texture")
