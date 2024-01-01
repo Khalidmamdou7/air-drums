@@ -1,2 +1,2 @@
-# air-drums
-Play Drums using only the sticks and a camera
+# Air drums
+Play Drums using only a camera and your hand.
